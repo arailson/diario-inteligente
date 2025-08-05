@@ -1,0 +1,10 @@
+# Ignorar arquivos Python compilados
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar arquivos de log
+*.log
+
+# Ignorar o banco de dados SQLite,
+data/*.db
