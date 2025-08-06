@@ -1,8 +1,15 @@
 from src.database import create_table, insert_data, consult_data
 
-create_table()
+results_create_table = create_table()
+print("results_create_table:", results_create_table)
 
-insert_data(8, 7, 9, 6, 'Treinei bem hoje', 'Foquei no trabalho hoje')
+results_insert_data = insert_data(10, 7, 3, 6, "Some positive points", "Some negative points")
 
-data = consult_data()
-print(data)
+if results_insert_data.success:
+    result = consult_data()
+    
+    print("Retorno sucesso: ", result.data)
+    
+else:
+    print("Erro ao inserir dados:", results_insert_data)
+
