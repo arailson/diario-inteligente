@@ -1,12 +1,16 @@
 import smtplib
+import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from src.results import Results
+from dotenv import load_dotenv
+
+load_dotenv() 
 
 def send_email(subject, body, to_email):
     try:
-        from_email = ""
-        from_password = ""
+        from_email = os.getenv('EMAIL_USER')
+        from_password = os.getenv('EMAIL_PASSWORD')
         
         if not subject:
             return Results(success=False, error_message=["subject não pode ser vazio"])
