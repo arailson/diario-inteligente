@@ -8,3 +8,6 @@ __pycache__/
 
 # Ignorar o banco de dados SQLite,
 data/*.db
+
+# Ignorar arquivo .env (credenciais e dados sensíveis)
+.env
