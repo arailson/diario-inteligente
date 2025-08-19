@@ -52,7 +52,7 @@ def send_weekly_email():
 
 
 # Agendar para todo sábado às 9:00 AM    
-schedule.every().tuesday.at("09:00").do(send_weekly_email)
+schedule.every(1).minutes.do(send_weekly_email)
 
 # Loop para executar o agendamento
 while True:
