@@ -1,12 +1,14 @@
-import smtplib
+from dotenv import load_dotenv
 import os
+import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from src.results import Results
-from dotenv import load_dotenv
 
 load_dotenv() 
 
+print("EMAIL_USER:", os.getenv("EMAIL_USER"))
+print("EMAIL_PASSWORD:", os.getenv("EMAIL_PASSWORD"))
 
 def send_email(subject, body, to_email):
     try:
