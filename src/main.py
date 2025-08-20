@@ -19,6 +19,8 @@ from src.results import Results
 
 
 
+
+
 # subject = "Teste de envio de e-mail"
 # body = "Este é um e-mail de teste enviado automaticamente."
 # to_email = "arailson.vieira@gmail.com"

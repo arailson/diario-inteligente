@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv() 
 
+
 def send_email(subject, body, to_email):
     try:
         from_email = os.getenv('EMAIL_USER')
