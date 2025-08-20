@@ -1,7 +1,7 @@
 import schedule
 import time
 from src.database import create_table, insert_data, consult_data
-from src.email import send_email
+from src.email_utils import send_email
 from src.results import Results
 
 # results_create_table = create_table()
