@@ -1,0 +1,55 @@
+name: Weekly Report - Diário Inteligente
+
+# Executa todo sábado às 9h (horário de Brasília)
+on:
+  schedule:
+    # Cron: minuto hora dia mês dia-da-semana
+    # 0 12 * * 6 = Todo sábado às 12h UTC (9h Brasília)
+    - cron: '0 12 * * 6'
+  
+  # Permite execução manual para testes
+  workflow_dispatch:
+    inputs:
+      test_email:
+        description: 'Email para teste (opcional)'
+        required: false
+        type: string
+
+jobs:
+  send-weekly-report:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+    
+    - name: 🐍 Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: 📦 Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: 🔧 Configurar variáveis de ambiente
+      run: |
+        echo "DATABASE_PATH=data/reviews.db" >> $GITHUB_ENV
+        echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> $GITHUB_ENV
+        echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+        echo "EMAIL_SMTP_SERVER=smtp.gmail.com" >> $GITHUB_ENV
+        echo "EMAIL_SMTP_PORT=587" >> $GITHUB_ENV
+        echo "WEEKLY_REPORT_EMAIL=${{ secrets.WEEKLY_REPORT_EMAIL }}" >> $GITHUB_ENV
+    
+    - name: 📊 Executar relatório semanal
+      run: |
+        python weekly_report.py
+      env:
+        WEEKLY_REPORT_EMAIL: ${{ github.event.inputs.test_email || secrets.WEEKLY_REPORT_EMAIL }}
+    
+    - name: ✅ Relatório enviado
+      run: |
+        echo "🎉 Relatório semanal enviado com sucesso!"
+        echo "📅 Data: $(date)"
+        echo "📧 Email: ${{ secrets.WEEKLY_REPORT_EMAIL }}"
