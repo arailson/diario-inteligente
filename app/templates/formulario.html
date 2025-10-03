@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Diário Inteligente - Avaliação Diária{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>🎯 Diário Inteligente</h1>
+        <p>Avaliação Diária - {{ date }}</p>
+    </div>
+    
+    <div class="tips">
+        <h3>💡 Dicas para uma boa avaliação:</h3>
+        <ul>
+            <li>Seja honesto com suas notas (0-10)</li>
+            <li>Pense no dia como um todo</li>
+            <li>Detalhe os pontos positivos e negativos</li>
+        </ul>
+    </div>
+    
+    <div class="success-message" id="successMessage" style="display: none;">
+        ✅ Avaliação enviada com sucesso! Você receberá uma confirmação por email.
+    </div>
+    
+    <div class="error-message" id="errorMessage" style="display: none;">
+        ❌ <span id="errorText"></span>
+    </div>
+    
+    <form id="evaluationForm">
+        <input type="hidden" id="userEmail" value="{{ email }}">
+        
+        <div class="form-grid">
+            <!-- Trabalho -->
+            <div class="rating-section">
+                <div class="rating-header">
+                    <span class="rating-icon">💼</span>
+                    <h3 class="rating-title">Trabalho</h3>
+                </div>
+                <div class="rating-scale-container">
+                    <div class="chart-scale" id="work-scale">
+                        {% for i in range(0, 11) %}
+                        <button type="button" class="btn-scale btn-scale-desc-{{ i }}" 
+                                data-category="work" data-value="{{ i }}">
+                            {{ i }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Treino -->
+            <div class="rating-section">
+                <div class="rating-header">
+                    <span class="rating-icon">🏃‍♂️</span>
+                    <h3 class="rating-title">Treino</h3>
+                </div>
+                <div class="rating-scale-container">
+                    <div class="chart-scale" id="training-scale">
+                        {% for i in range(0, 11) %}
+                        <button type="button" class="btn-scale btn-scale-desc-{{ i }}" 
+                                data-category="training" data-value="{{ i }}">
+                            {{ i }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Estudos -->
+            <div class="rating-section">
+                <div class="rating-header">
+                    <span class="rating-icon">📚</span>
+                    <h3 class="rating-title">Estudos</h3>
+                </div>
+                <div class="rating-scale-container">
+                    <div class="chart-scale" id="studies-scale">
+                        {% for i in range(0, 11) %}
+                        <button type="button" class="btn-scale btn-scale-desc-{{ i }}" 
+                                data-category="studies" data-value="{{ i }}">
+                            {{ i }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Estado Mental -->
+            <div class="rating-section">
+                <div class="rating-header">
+                    <span class="rating-icon">🧠</span>
+                    <h3 class="rating-title">Estado Mental</h3>
+                </div>
+                <div class="rating-scale-container">
+                    <div class="chart-scale" id="mind-scale">
+                        {% for i in range(0, 11) %}
+                        <button type="button" class="btn-scale btn-scale-desc-{{ i }}" 
+                                data-category="mind" data-value="{{ i }}">
+                            {{ i }}
+                        </button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-grid">
+            <div class="text-group">
+                <label for="positive_points">
+                    <span style="font-size: 20px; margin-right: 8px;">✨</span>Pontos Positivos
+                </label>
+                <textarea id="positive_points" name="positive_points" class="text-input" 
+                          placeholder="Descreva os pontos positivos do seu dia..." required></textarea>
+            </div>
+            
+            <div class="text-group">
+                <label for="negative_points">
+                    <span style="font-size: 20px; margin-right: 8px;">📉</span>Pontos Negativos
+                </label>
+                <textarea id="negative_points" name="negative_points" class="text-input" 
+                          placeholder="Descreva os pontos que podem melhorar..." required></textarea>
+            </div>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submitBtn">
+            📤 Enviar Avaliação
+        </button>
+    </form>
+    
+    <div class="footer">
+        <p>🤖 Gerado automaticamente pelo Diário Inteligente</p>
+        <p>📧 Sua avaliação será processada automaticamente</p>
+    </div>
+</div>
+{% endblock %}
+

@@ -56,36 +56,172 @@ def create_notification_email_html(date: str, form_url: str) -> str:
             </ul>
         </div>
         
-                            <!-- CTA Button -->
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 30px 0;">
-                                <tr>
-                                    <td align="center">
-                                        <a href="{form_url}" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 18px 50px; border-radius: 10px; font-size: 18px; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
-                                            📝 Preencher Avaliação
-                                        </a>
-                                    </td>
-                                </tr>
-                            </table>
-                            
-                            <p style="margin: 25px 0 0 0; font-size: 14px; color: #999; text-align: center;">
-                                Ou copie e cole este link no seu navegador:<br>
-                                <a href="{form_url}" style="color: #667eea; text-decoration: none;">{form_url}</a>
-                            </p>
-                        </td>
-                    </tr>
-                    
-                    <!-- Footer -->
-                    <tr>
-                        <td style="padding: 30px; text-align: center; border-top: 1px solid #e1e5e9;">
-                            <p style="margin: 0; font-size: 14px; color: #999;">🤖 Enviado automaticamente pelo Diário Inteligente</p>
-                            <p style="margin: 10px 0 0 0; font-size: 12px; color: #ccc;">Segunda, Quarta e Sexta às 20:00</p>
-                        </td>
-                    </tr>
-                    
-                </table>
-            </td>
-        </tr>
-    </table>
+        <div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; display: none;" id="successMessage">
+            ✅ Avaliação enviada com sucesso! Você receberá uma confirmação por email.
+        </div>
+        
+        <form id="evaluationForm">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 25px;">
+                <div style="margin-bottom: 30px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span style="font-size: 40px; display: block; margin-bottom: 10px;">💼</span>
+                        <h3 style="margin: 0; color: #333; font-size: 20px; font-weight: 600;">Trabalho</h3>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">0</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">1</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">2</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">3</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">4</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">5</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">6</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">7</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">8</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">9</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">10</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px;">
+                        <input type="radio" name="work" value="0" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="1" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="2" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="3" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="4" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="5" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="6" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="7" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="8" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="9" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="work" value="10" style="transform: scale(1.5); cursor: pointer;" required>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span style="font-size: 40px; display: block; margin-bottom: 10px;">🏃‍♂️</span>
+                        <h3 style="margin: 0; color: #333; font-size: 20px; font-weight: 600;">Treino</h3>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">0</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">1</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">2</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">3</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">4</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">5</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">6</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">7</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">8</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">9</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">10</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px;">
+                        <input type="radio" name="training" value="0" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="1" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="2" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="3" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="4" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="5" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="6" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="7" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="8" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="9" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="training" value="10" style="transform: scale(1.5); cursor: pointer;" required>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span style="font-size: 40px; display: block; margin-bottom: 10px;">📚</span>
+                        <h3 style="margin: 0; color: #333; font-size: 20px; font-weight: 600;">Estudos</h3>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">0</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">1</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">2</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">3</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">4</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">5</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">6</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">7</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">8</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">9</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">10</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px;">
+                        <input type="radio" name="studies" value="0" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="1" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="2" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="3" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="4" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="5" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="6" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="7" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="8" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="9" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="studies" value="10" style="transform: scale(1.5); cursor: pointer;" required>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 30px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <span style="font-size: 40px; display: block; margin-bottom: 10px;">🧠</span>
+                        <h3 style="margin: 0; color: #333; font-size: 20px; font-weight: 600;">Estado Mental</h3>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 10px;">
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">0</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">1</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">2</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">3</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">4</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">5</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">6</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">7</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">8</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">9</span>
+                        <span style="font-size: 14px; color: #666; font-weight: 500;">10</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0 5px;">
+                        <input type="radio" name="mind" value="0" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="1" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="2" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="3" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="4" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="5" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="6" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="7" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="8" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="9" style="transform: scale(1.5); cursor: pointer;" required>
+                        <input type="radio" name="mind" value="10" style="transform: scale(1.5); cursor: pointer;" required>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
+                <div style="margin-bottom: 20px;">
+                    <label for="positive_points" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 16px;">
+                        <span style="font-size: 20px; margin-right: 8px;">✨</span>Pontos Positivos
+                    </label>
+                    <textarea id="positive_points" name="positive_points" style="width: 100%; padding: 15px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; resize: vertical; min-height: 100px; box-sizing: border-box;" placeholder="Descreva os pontos positivos do seu dia..." required></textarea>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label for="negative_points" style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 16px;">
+                        <span style="font-size: 20px; margin-right: 8px;">📉</span>Pontos Negativos
+                    </label>
+                    <textarea id="negative_points" name="negative_points" style="width: 100%; padding: 15px; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 16px; resize: vertical; min-height: 100px; box-sizing: border-box;" placeholder="Descreva os pontos que podem melhorar..." required></textarea>
+                </div>
+            </div>
+            
+            <button type="button" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 18px 40px; border-radius: 10px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(102, 126, 234, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'" onclick="this.style.transform='translateY(-1px)'">
+                📤 Enviar Avaliação
+            </button>
+        </form>
+        
+        <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+            <p>🤖 Gerado automaticamente pelo Diário Inteligente</p>
+            <p>📧 Sua avaliação será processada automaticamente</p>
+        </div>
+    </div>
+    
 </body>
 </html>"""
 
