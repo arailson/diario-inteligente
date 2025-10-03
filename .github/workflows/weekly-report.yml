@@ -1,23 +1,74 @@
-name: Weekly Report - Diário Inteligente
+name: Diário Inteligente - Automação Completa
 
-# Executa todo sábado às 9h (horário de Brasília)
+# Executa:
+# - Segunda, Quarta e Sexta às 20h (formulários diários)
+# - Sábado às 9h (relatório semanal)
 on:
   schedule:
     # Cron: minuto hora dia mês dia-da-semana
-    # 0 12 * * 6 = Todo sábado às 12h UTC (9h Brasília)
-    - cron: '0 12 * * 6'
+    # 0 23 * * 1,3,5 = Segunda, Quarta, Sexta às 23h UTC (20h Brasília)
+    # 0 12 * * 6 = Sábado às 12h UTC (9h Brasília)
+    - cron: '0 23 * * 1,3,5'  # Formulários diários
+    - cron: '0 12 * * 6'      # Relatório semanal
   
   # Permite execução manual para testes
   workflow_dispatch:
     inputs:
+      action_type:
+        description: 'Tipo de ação (daily_form ou weekly_report)'
+        required: true
+        type: choice
+        options:
+          - daily_form
+          - weekly_report
       test_email:
         description: 'Email para teste (opcional)'
         required: false
         type: string
 
 jobs:
-  send-weekly-report:
+  daily-form:
     runs-on: ubuntu-latest
+    if: github.event.schedule == '0 23 * * 1,3,5' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action_type == 'daily_form')
+    
+    steps:
+    - name: 📥 Checkout do código
+      uses: actions/checkout@v4
+    
+    - name: 🐍 Configurar Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: 📦 Instalar dependências
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: 🔧 Configurar variáveis de ambiente
+      run: |
+        echo "DATABASE_PATH=data/reviews.db" >> $GITHUB_ENV
+        echo "EMAIL_USER=${{ secrets.EMAIL_USER }}" >> $GITHUB_ENV
+        echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+        echo "EMAIL_SMTP_SERVER=smtp.gmail.com" >> $GITHUB_ENV
+        echo "EMAIL_SMTP_PORT=587" >> $GITHUB_ENV
+        echo "DAILY_FORM_EMAIL=${{ secrets.DAILY_FORM_EMAIL }}" >> $GITHUB_ENV
+    
+    - name: 📝 Enviar formulário diário
+      run: |
+        python daily_form.py
+      env:
+        DAILY_FORM_EMAIL: ${{ github.event.inputs.test_email || secrets.DAILY_FORM_EMAIL }}
+    
+    - name: ✅ Formulário enviado
+      run: |
+        echo "📝 Formulário diário enviado com sucesso!"
+        echo "📅 Data: $(date)"
+        echo "📧 Email: ${{ secrets.DAILY_FORM_EMAIL }}"
+
+  weekly-report:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 12 * * 6' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action_type == 'weekly_report')
     
     steps:
     - name: 📥 Checkout do código

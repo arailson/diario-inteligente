@@ -83,6 +83,58 @@ class EmailService:
         except Exception as e:
             return Result.error_result(f"Erro ao enviar email: {str(e)}")
     
+    def send_html_email(self, to_email: str, subject: str, html_body: str) -> Result:
+        """
+        Envia um email com conteúdo HTML.
+        
+        Args:
+            to_email (str): Email do destinatário
+            subject (str): Assunto do email
+            html_body (str): Corpo HTML do email
+            
+        Returns:
+            Result: Resultado da operação
+        """
+        try:
+            # Valida configurações
+            config_result = self._validate_email_settings()
+            if not config_result.success:
+                return config_result
+            
+            # Valida parâmetros
+            validation_result = self._validate_email_params(to_email, subject, html_body)
+            if not validation_result.success:
+                return validation_result
+            
+            # Cria a mensagem
+            msg = MIMEMultipart()
+            msg['From'] = self.email_user
+            msg['To'] = to_email
+            msg['Subject'] = subject
+            
+            # Adiciona o corpo HTML do email
+            msg.attach(MIMEText(html_body, 'html', 'utf-8'))
+            
+            # Conecta e envia
+            server = smtplib.SMTP(self.smtp_server, self.smtp_port)
+            server.starttls()  # Habilita criptografia
+            server.login(self.email_user, self.email_password)
+            
+            text = msg.as_string()
+            server.sendmail(self.email_user, to_email, text)
+            server.quit()
+            
+            return Result.success_result("Email HTML enviado com sucesso!")
+            
+        except smtplib.SMTPAuthenticationError:
+            return Result.error_result("Erro de autenticação. Verifique usuário e senha.")
+        except smtplib.SMTPRecipientsRefused:
+            return Result.error_result("Email do destinatário inválido.")
+        except smtplib.SMTPException as e:
+            return Result.error_result(f"Erro SMTP: {str(e)}")
+        except Exception as e:
+            return Result.error_result(f"Erro ao enviar email HTML: {str(e)}")
+    
     def _validate_email_params(self, to_email: str, subject: str, body: str) -> Result:
         """Valida os parâmetros do email."""
         errors = []

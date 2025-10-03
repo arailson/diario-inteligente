@@ -49,6 +49,18 @@ class WeeklyReportService:
             
             reviews = reviews_result.data
             
+            # 2.1. Verifica se há avaliações na semana
+            if not reviews or len(reviews) == 0:
+                print("⚠️  Nenhuma avaliação encontrada na semana")
+                if target_email:
+                    return self._send_no_data_email(target_email)
+                else:
+                    return Result.success_result({
+                        'message': 'Nenhuma avaliação encontrada na semana',
+                        'weekly_data': weekly_data,
+                        'reviews_count': 0
+                    })
+            
             # 3. Gera análise com IA
             analysis_result = self.ai_service.analyze_weekly_data(weekly_data, reviews)
             if not analysis_result.success:
@@ -82,13 +94,19 @@ class WeeklyReportService:
             end_date = datetime.now().strftime('%Y-%m-%d')
             start_date = (datetime.now() - timedelta(days=7)).strftime('%Y-%m-%d')
             
+            print(f"📅 Buscando avaliações de {start_date} até {end_date}")
+            
             # Tenta buscar por período, se não conseguir, busca todas
             result = self.db_service.get_reviews_by_date_range(start_date, end_date)
             if not result.success:
                 # Se falhar, busca todas as avaliações
+                print("⚠️  Buscando todas as avaliações (fallback)")
                 result = self.db_service.get_all_reviews()
             
-            return result
+            reviews = result.data if result.success else []
+            print(f"📊 Encontradas {len(reviews)} avaliações na semana")
+            
+            return Result.success_result(reviews)
             
         except Exception as e:
             return Result.error_result(f"Erro ao buscar avaliações da semana: {str(e)}")
@@ -192,3 +210,48 @@ Pequenas melhorias diárias levam a grandes transformações!
             error_msg = f"Erro no relatório agendado: {str(e)}"
             print(f"❌ {error_msg}")
             return Result.error_result(error_msg)
+    
+    def _send_no_data_email(self, email: str) -> Result:
+        """
+        Envia email informando que não há dados da semana.
+        
+        Args:
+            email: Email do destinatário
+            
+        Returns:
+            Result: Resultado da operação
+        """
+        try:
+            subject = f"{settings.APP_NAME} - Sem Avaliações Esta Semana ({datetime.now().strftime('%d/%m/%Y')})"
+            
+            body = f"""
+🎯 {settings.APP_NAME} - RELATÓRIO SEMANAL
+{'=' * 50}
+
+📅 Semana de {datetime.now().strftime('%d/%m/%Y')}
+
+⚠️  NENHUMA AVALIAÇÃO ENCONTRADA
+
+Esta semana não foram registradas avaliações diárias.
+
+💡 LEMBRE-SE:
+• Formulários são enviados nas segundas, quartas e sextas às 20h
+• Responda os emails para registrar suas avaliações
+• No sábado você receberá o relatório com análise de IA
+
+📝 PRÓXIMOS PASSOS:
+1. Aguarde o próximo formulário (Segunda/Quarta/Sexta)
+2. Preencha e responda o email
+3. Continue registrando suas avaliações diárias
+
+🌟 Cada avaliação ajuda a IA a dar insights melhores!
+
+---
+📱 Gerado automaticamente pelo {settings.APP_NAME} v{settings.APP_VERSION}
+🕒 {datetime.now().strftime('%d/%m/%Y às %H:%M')}
+            """.strip()
+            
+            return self.email_service.send_email(email, subject, body)
+            
+        except Exception as e:
+            return Result.error_result(f"Erro ao enviar email sem dados: {str(e)}")

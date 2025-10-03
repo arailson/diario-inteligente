@@ -1,13 +1,77 @@
-# Ignorar arquivos Python compilados
+# ========================================
+# Python
+# ========================================
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
+*.so
+.Python
 
-# Ignorar arquivos de log
-*.log
+# ========================================
+# Ambientes virtuais
+# ========================================
+venv/
+env/
+ENV/
+.venv
 
-# Ignorar o banco de dados SQLite,
-data/*.db
+# ========================================
+# IDEs e Editores
+# ========================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
-# Ignorar arquivo .env (credenciais e dados sensíveis)
+# ========================================
+# Credenciais e Dados Sensíveis
+# ========================================
 .env
+.env.local
+.env.*.local
+
+# ========================================
+# Banco de Dados
+# ========================================
+data/*.db
+data/*.db-journal
+data/*.sqlite
+data/*.sqlite3
+*.db
+*.db-journal
+
+# ========================================
+# Logs e Temporários
+# ========================================
+*.log
+logs/
+*.tmp
+*.temp
+
+# ========================================
+# Testes e Coverage
+# ========================================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ========================================
+# Build e Distribuição
+# ========================================
+build/
+dist/
+*.egg-info/
+
+# ========================================
+# Jupyter Notebooks
+# ========================================
+.ipynb_checkpoints
+
+# ========================================
+# Arquivos do Sistema
+# ========================================
+Thumbs.db
+desktop.ini
